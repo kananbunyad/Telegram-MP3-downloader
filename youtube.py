@@ -1,10 +1,12 @@
 from pytube import YouTube
 import os
-
+def get_yt_title(event):
+    yt = YouTube(event.raw_text
+                )
+    return yt.title
 async def youtube_download(event):
     yt = YouTube(event.raw_text
                 )
-
     video = yt.streams.filter(only_audio=True).first()
 
     # download the file
@@ -18,5 +20,5 @@ async def youtube_download(event):
     # result of success
     print(yt.title + " has been successfully downloaded.")
 
-    return new_file, yt.title
+    return new_file
 
