@@ -3,6 +3,9 @@ import os
 
 from telethon import TelegramClient, events
 import re
+
+from telethon.tl.types import DocumentAttributeAudio
+
 from youtube import youtube_download, get_yt_title
 from dotenv import load_dotenv
 from regex import is_youtube_link
@@ -14,7 +17,7 @@ load_dotenv()
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
-
+channel_id = int(os.getenv("CHANNEL_ID"))
 
 # Function to send a private message using a bot
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
@@ -56,9 +59,10 @@ Sadəcə istədiyin Youtube linkini göndər və arxana söykən. 😉
             if paired_message:
                 await client.forward_messages(event.chat_id, paired_message)
             else:
-                new_file = await youtube_download(event)
-                sent_message = await client.send_file(event.chat_id, new_file, caption=yt_title)
-                await client.forward_messages(1859107525, sent_message)
+                new_file, yt_title, author_name, duration = await youtube_download(event)
+                attributes = [DocumentAttributeAudio(duration=duration, title=yt_title, performer=author_name)]
+                sent_message = await client.send_file(event.chat_id, new_file, attributes=attributes)
+                await client.forward_messages(channel_id, sent_message)
 
                 os.remove(new_file)
         else:
