@@ -24,7 +24,7 @@ async def youtube_download(event):
     f = music_tag.load_file(f'{new_file}')
     f['title'] = yt.title
     f['artist'] = yt.author
-
+    f.save()
     # result of success
     print(yt.title + " has been successfully downloaded.")
 
