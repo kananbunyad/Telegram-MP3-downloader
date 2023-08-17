@@ -62,7 +62,7 @@ Sadəcə istədiyin Youtube linkini göndər və arxana söykən. 😉
                 new_file, yt_title, author_name, duration = await youtube_download(event)
                 attributes = [DocumentAttributeAudio(duration=duration, title=yt_title, performer=author_name)]
                 sent_message = await client.send_file(event.chat_id, new_file, attributes=attributes)
-                await client.forward_messages(channel_id, sent_message)
+                await client.forward_messages(channel_id, sent_message, silent=True)
 
                 os.remove(new_file)
         else:

@@ -1,5 +1,6 @@
 from pytube import YouTube
 import os
+import music_tag
 
 def get_yt_title(event):
     yt = YouTube(event.raw_text
@@ -20,6 +21,9 @@ async def youtube_download(event):
     base, ext = os.path.splitext(out_file)
     new_file = base + '.mp3'
     os.rename(out_file, new_file)
+    f = music_tag.load_file(f'{new_file}')
+    f['title'] = yt.title
+    f['artist'] = yt.author
 
     # result of success
     print(yt.title + " has been successfully downloaded.")
