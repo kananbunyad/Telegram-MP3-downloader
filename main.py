@@ -1,8 +1,6 @@
-import asyncio
 import os
 
 from telethon import TelegramClient, events
-import re
 
 from telethon.tl.types import DocumentAttributeAudio
 
@@ -12,7 +10,6 @@ from regex import is_youtube_link
 from group import search_messages
 
 load_dotenv()
-# Replace these values with your own API ID, API HASH, and bot token
 
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
